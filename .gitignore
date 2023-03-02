@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+
+#Visual Studio files
+.vs
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+#Other files and folders
+.gitattributes
+x64\Debug
+/x64/Debug
+/CppProperties.json
