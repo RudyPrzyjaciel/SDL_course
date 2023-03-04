@@ -4,6 +4,7 @@
 
 /* Function declarations */
 bool init();
+void mainApplicationLoop();
 bool loadMedia();
 void close();
 
@@ -11,12 +12,14 @@ void close();
 const int SCREEN_WIDTH = 400;
 const int SCREEN_HEIGHT = 490;
 
+bool quitApplication = false;
+
 std::string IMAGE_FILE_NAME = "Image.bmp";
 
 SDL_Window* window = NULL;
 SDL_Surface* screenSurface = NULL;
 SDL_Surface* bmpImage = NULL;
-
+SDL_Event event;
 
 int main(int argc, char* args[])
 {
@@ -32,15 +35,31 @@ int main(int argc, char* args[])
 		}
 		else
 		{
-			SDL_BlitSurface(bmpImage, NULL, screenSurface, NULL);
-			SDL_UpdateWindowSurface(window);
-			SDL_Event e; bool quit = false; while (quit == false) { while (SDL_PollEvent(&e)) { if (e.type == SDL_QUIT) quit = true; } }
+			mainApplicationLoop();
 		}
 	}
 
 	close();
 
 	return 0;
+}
+
+void mainApplicationLoop()
+{
+	while (!quitApplication)
+	{
+		while (SDL_PollEvent(&event) != 0)
+		{
+			if (event.type == SDL_QUIT)
+			{
+				quitApplication = true;
+				printf("EventHandler: quitApplication = true!\n");
+			}
+		}
+
+		SDL_BlitSurface(bmpImage, NULL, screenSurface, NULL);
+		SDL_UpdateWindowSurface(window);
+	}
 }
 
 bool init()
@@ -66,6 +85,7 @@ bool init()
 		}
 	}
 
+	printf("Init: Success!\n");
 	return success;
 }
 
@@ -80,6 +100,7 @@ bool loadMedia()
 		success = false;
 	}
 
+	printf("LoadData: Success!\n");
 	return success;
 }
 
@@ -92,4 +113,5 @@ void close()
 	window = NULL;
 
 	SDL_Quit();
+	printf("Close: Success!\n");
 }
