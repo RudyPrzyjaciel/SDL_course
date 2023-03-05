@@ -43,3 +43,5 @@
 x64\Debug
 /x64/Debug
 /CppProperties.json
+/SDL_course/x64/Debug
+/SDL_course/SDL_course.aps

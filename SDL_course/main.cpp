@@ -12,8 +12,8 @@ SDL_Surface* loadSurface(std::string path);
 
 
 //------MACROS-&-GLOBAL-VARIABLES-------//
-const int SCREEN_WIDTH = 400;
-const int SCREEN_HEIGHT = 490;
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
 bool quitApplication = false;
 
@@ -33,7 +33,6 @@ enum KeyPressSurfaces
 SDL_Window* window = NULL;
 SDL_Surface* screenSurface = NULL;
 SDL_Surface* currentSurface = NULL;
-//SDL_Surface* bmpImage = NULL;
 SDL_Surface* keyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
 SDL_Event event;
 
@@ -111,7 +110,13 @@ void mainApplicationLoop()
 			}
 		}
 
-		SDL_BlitSurface(currentSurface, NULL, screenSurface, NULL);
+		SDL_Rect strechRect;
+		strechRect.x = 0;
+		strechRect.y = 0;
+		strechRect.w = SCREEN_WIDTH;
+		strechRect.h = SCREEN_HEIGHT;
+
+		SDL_BlitScaled(currentSurface, NULL, screenSurface, &strechRect);
 		SDL_UpdateWindowSurface(window);
 	}
 }
@@ -203,13 +208,24 @@ void close()
 	printf("Close: Success!\n");
 }
 
-
 SDL_Surface* loadSurface(std::string path)
 {
+	SDL_Surface* optimizedSurface = NULL;
+
+
 	SDL_Surface* loadedSurface = SDL_LoadBMP(path.c_str());
 	if (loadedSurface == NULL)
 	{
-		printf("Unable to load image %s! SDL Error: %s",path.c_str() , SDL_GetError());
+		printf("Unable to load image %s! SDL Error: %s\n",path.c_str() , SDL_GetError());
 	}
-	return loadedSurface;
+	else
+	{
+		optimizedSurface = SDL_ConvertSurface(loadedSurface, screenSurface->format, 0);
+		if (optimizedSurface == NULL)
+		{
+			printf("Unable to optimize image%s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+		}
+		SDL_FreeSurface(loadedSurface);
+	}
+	return optimizedSurface;
 }
