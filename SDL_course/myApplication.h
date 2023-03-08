@@ -1,10 +1,13 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_image.h>
 #include <string>
+
 class myApplication
 {
 	bool loadMedia();
 	SDL_Surface* loadSurface(std::string path);
+	SDL_Surface* loadSurfacePNG(std::string path);
 
 	int SCREEN_WIDTH = 640;
 	int SCREEN_HEIGHT = 480;
@@ -17,6 +20,7 @@ class myApplication
 		KEY_PRESS_SURFACE_LEFT,
 		KEY_PRESS_SURFACE_RIGHT,
 		KEY_PRESS_SURFACE_ESCAPE,
+		KEY_PRESS_SURFACE_PNG,
 		KEY_PRESS_SURFACE_TOTAL,
 	};
 

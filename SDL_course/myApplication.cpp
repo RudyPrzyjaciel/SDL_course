@@ -46,6 +46,13 @@ bool myApplication::loadMedia()
 		success = false;
 	}
 
+	this->keyPressSurfaces[KEY_PRESS_SURFACE_PNG] = IMG_Load("pngImage.png");
+	if (this->keyPressSurfaces[KEY_PRESS_SURFACE_PNG] == NULL)
+	{
+		printf("Failed to load png image!\n");
+		success = false;
+	}
+
 	printf("loadMedia(): %s!\n", success ? "success" : "failure");
 	return success;
 }
@@ -72,6 +79,29 @@ SDL_Surface* myApplication::loadSurface(std::string path)
 	return convertedSurface;
 }
 
+SDL_Surface* myApplication::loadSurfacePNG(std::string path)
+{
+	SDL_Surface* loadedSurface = NULL;
+	SDL_Surface* convertedSurface = NULL;
+
+	loadedSurface = IMG_Load(path.c_str());
+	if (loadedSurface == NULL)
+	{
+		printf("loadSurface(): Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+	}
+	else
+	{
+		convertedSurface = SDL_ConvertSurface(loadedSurface, this->screenSurface->format, 0);
+		if (convertedSurface == NULL)
+		{
+			printf("loadSurface(): Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+		}
+		SDL_FreeSurface(loadedSurface);
+	}
+	return convertedSurface;
+}
+
+
 bool myApplication::init()
 {
 	bool success = true;
@@ -90,10 +120,19 @@ bool myApplication::init()
 		}
 		else
 		{
-			this->screenSurface = SDL_GetWindowSurface(this->myAppWindow);
+			int imgFlags = IMG_INIT_PNG;
+			if (!(IMG_Init(imgFlags) & imgFlags))
+			{
+				printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+				success = false;
+			}
+			else
+			{
+				this->screenSurface = SDL_GetWindowSurface(this->myAppWindow);
+			}
 		}
 	}
-	printf("init(): %s\n", success ? "success" : "fauilure");
+	printf("init(): %s\n", success ? "success" : "failure");
 	this->loadMedia();
 	return success;
 }
@@ -127,9 +166,15 @@ void myApplication::mainLoop()
 					this->currentScreenSurface = this->keyPressSurfaces[KEY_PRESS_SURFACE_LEFT];
 					printf("mainLoop(): Left arrow key press!\n");
 					break;
+
 				case SDLK_RIGHT:
 					this->currentScreenSurface = this->keyPressSurfaces[KEY_PRESS_SURFACE_RIGHT];
 					printf("mainLoop(): Right arrow key press!\n");
+					break;
+
+				case SDLK_p:
+					this->currentScreenSurface = this->keyPressSurfaces[KEY_PRESS_SURFACE_PNG];
+					printf("mainLoop(): \"P\" key press!\n");
 					break;
 
 				case SDLK_ESCAPE:
