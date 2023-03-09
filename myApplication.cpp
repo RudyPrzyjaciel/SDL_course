@@ -4,49 +4,49 @@ bool myApplication::loadMedia()
 {
 	bool success = true;
 
-	this->keyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("press.bmp");
+	this->keyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("images/press.bmp");
 	if (this->keyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT] == NULL)
 	{
 		printf("Failed to load default image!\n");
 		success = false;
 	}
 
-	this->keyPressSurfaces[KEY_PRESS_SURFACE_UP] = loadSurface("up.bmp");
+	this->keyPressSurfaces[KEY_PRESS_SURFACE_UP] = loadSurface("images/up.bmp");
 	if (this->keyPressSurfaces[KEY_PRESS_SURFACE_UP] == NULL)
 	{
 		printf("Failed to load up image!\n");
 		success = false;
 	}
 
-	this->keyPressSurfaces[KEY_PRESS_SURFACE_DOWN] = loadSurface("down.bmp");
+	this->keyPressSurfaces[KEY_PRESS_SURFACE_DOWN] = loadSurface("images/down.bmp");
 	if (this->keyPressSurfaces[KEY_PRESS_SURFACE_DOWN] == NULL)
 	{
 		printf("Failed to load down image!\n");
 		success = false;
 	}
 
-	this->keyPressSurfaces[KEY_PRESS_SURFACE_LEFT] = loadSurface("left.bmp");
+	this->keyPressSurfaces[KEY_PRESS_SURFACE_LEFT] = loadSurface("images/left.bmp");
 	if (this->keyPressSurfaces[KEY_PRESS_SURFACE_LEFT] == NULL)
 	{
 		printf("Failed to load left image!\n");
 		success = false;
 	}
 
-	this->keyPressSurfaces[KEY_PRESS_SURFACE_RIGHT] = loadSurface("right.bmp");
+	this->keyPressSurfaces[KEY_PRESS_SURFACE_RIGHT] = loadSurface("images/right.bmp");
 	if (this->keyPressSurfaces[KEY_PRESS_SURFACE_RIGHT] == NULL)
 	{
 		printf("Failed to load right image!\n");
 		success = false;
 	}
 
-	this->keyPressSurfaces[KEY_PRESS_SURFACE_ESCAPE] = loadSurface("escape.bmp");
+	this->keyPressSurfaces[KEY_PRESS_SURFACE_ESCAPE] = loadSurface("images/escape.bmp");
 	if (this->keyPressSurfaces[KEY_PRESS_SURFACE_ESCAPE] == NULL)
 	{
 		printf("Failed to load escape image!\n");
 		success = false;
 	}
 
-	this->keyPressSurfaces[KEY_PRESS_SURFACE_PNG] = IMG_Load("pngImage.png");
+	this->keyPressSurfaces[KEY_PRESS_SURFACE_PNG] = IMG_Load("images/pngImage.png");
 	if (this->keyPressSurfaces[KEY_PRESS_SURFACE_PNG] == NULL)
 	{
 		printf("Failed to load png image!\n");
