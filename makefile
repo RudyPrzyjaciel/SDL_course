@@ -6,4 +6,5 @@ OBJ_NAME = myapp
 BUILD_DIR = build
 
 all : $(OBJS)
+	@mkdir -p $(BUILD_DIR)
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(BUILD_DIR)/$(OBJ_NAME)
