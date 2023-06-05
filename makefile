@@ -1,10 +1,29 @@
-OBJS = main.cpp myApplication.cpp
-CC = g++
-COMPILER_FLAGS = -w
-LINKER_FLAGS = -lSDL2 -lSDL2_image
-OBJ_NAME = myapp
-BUILD_DIR = build
+SRC_DIR := src
+OBJ_DIR := obj
+BIN_DIR := bin
 
-all : $(OBJS)
-	@mkdir -p $(BUILD_DIR)
-	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(BUILD_DIR)/$(OBJ_NAME)
+EXE := $(BIN_DIR)/my_sdl_app
+SRC := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ := $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+
+CC = g++
+COMPILER_FLAGS = -Wall
+LINKER_LIBS = -lSDL2 -lSDL2_image
+
+.PHONY: all clean
+
+all: $(EXE)
+
+$(EXE): $(OBJ) | $(BIN_DIR)
+	$(CC) $^ $(LINKER_LIBS) -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+	$(CC) $(COMPILER_FLAGS) -c $< -o $@
+
+$(BIN_DIR) $(OBJ_DIR):
+	mkdir -p $@
+
+clean:
+	@$(RM) -rv $(BIN_DIR) $(OBJ_DIR)
+
+-include $(OBJ:.o=.d)
